@@ -1,4 +1,4 @@
 <!--index.wxml-->
 <view class="container">
-    <web-view src="http://m.neworldxo.com"></web-view>
+    <web-view src="https://m.neworldxo.com"></web-view>
 </view>
