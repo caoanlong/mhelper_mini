@@ -26,7 +26,7 @@ Page({
         return {
             title: '华克金等币看盘盯盘助手',
             path: '/pages/index/index',
-            imageUrl: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2803412383,3138459875&fm=173&app=25&f=JPEG?w=550&h=366&s=5AB301C52453D9C01621A53003005011',
+            // imageUrl: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2803412383,3138459875&fm=173&app=25&f=JPEG?w=550&h=366&s=5AB301C52453D9C01621A53003005011',
             success: function (res) {
                 // 转发成功
             },
