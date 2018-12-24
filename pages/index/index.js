@@ -8,7 +8,10 @@ Page({
         userInfo: {},
         hasUserInfo: false,
         canIUse: wx.canIUse('button.open-type.getUserInfo'),
-        recommender: ''
+        recommender: '',
+        userid: '',
+        unionid: '',
+        url: 'https://m.mhelper.co'
     },
     //事件处理函数
     bindViewTap: function () {
@@ -20,13 +23,9 @@ Page({
 	 * 分享
 	 */
     onShareAppMessage: function (res) {
-        if (res.from === 'button') {
-            // 来自页面内转发按钮
-            console.log(res.target)
-        }
         return {
             title: '华克金等币看盘盯盘助手',
-            path: `/pages/index/index?recommender=${this.data.recommender}`,
+            path: `/pages/index/index?userid=${this.data.userid}`,
             // imageUrl: 'https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2803412383,3138459875&fm=173&app=25&f=JPEG?w=550&h=366&s=5AB301C52453D9C01621A53003005011',
             success: function (res) {
                 // 转发成功
@@ -39,7 +38,41 @@ Page({
     receivePostMsg: function (e) {
         console.log("收到的消息是", e)
     },
-    onLoad: function () {
+    onShow: function () {
+        this.onLoad()
+    },
+    onLoad: function (options) {
+        if (options && options.userid) {
+            this.setData({ 
+                recommender: options.userid,
+                url: 'https://m.mhelper.co/#/?recommender=' + options.userid
+            })
+        }
+        // 登录
+        wx.login({
+            success: res => {
+                // 发送 res.code 到后台换取 openId, sessionKey, unionId
+                wx.request({
+                    url: 'https://api.mhelper.co/weixin/getMiniOpenID',
+                    data: {
+                        code: res.code
+                    },
+                    success: response => {
+                        if (!response.data.data.unionid) return
+                        wx.request({
+                            url: 'https://api.mhelper.co/customer/customerinfo/unionid',
+                            data: {
+                                unionid: response.data.data.unionid
+                            },
+                            success: result => {
+                                console.log(result.data.data)
+                                this.setData({ userid: result.data.data.userid})
+                            }
+                        })
+                    }
+                })
+            }
+        })
         wx.showShareMenu({
             withShareTicket: true
         })

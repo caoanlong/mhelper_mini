@@ -1,4 +1,4 @@
 <!--index.wxml-->
 <view class="container">
-    <web-view src="https://m.mhelper.co" bindmessage='receivePostMsg'></web-view>
+    <web-view src="{{url}}" bindmessage='receivePostMsg'></web-view>
 </view>
